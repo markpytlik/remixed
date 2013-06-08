@@ -1,5 +1,6 @@
 .remixed {
-	margin: 0 auto;
+	color: rgba(0, 0, 0, .75);
+	margin: 0 auto 100px;
 	width: 50%;
 }
 
@@ -9,15 +10,121 @@ h3,
 h4,
 h5 {
 	font-weight: 400;
-	font-family: 'Open Sans', sans-serif;
-	color: #555;
+	font-family: 'Raleway', sans-serif;
+}
+
+.spotify {
+	font-weight: 400;
+	color: #7ab800;
+}
+
+.page-header {
+	padding: 40px 0;
+	border-bottom: 1px solid rgba(0, 0, 0, .10);
+	box-shadow: 0 2px 0 rgba(0, 0, 0, .03);
 }
 
 .page-title {
+	font-size: 64px;
+	font-weight: 200;
+	margin: 0;
+}
 
+.page-subtitle {
+	font-size: 18px;
+	text-transform: uppercase;
+	color: rgba(0, 0, 0, .50);
+	margin: 0;
 }
 
 .lead {
-	font: 18px 'Varela Round';
+	font-weight: 300;
 	color: #888;
+	margin: 30px 0;
+}
+
+.pure-form input,
+.pure-form select {
+	font-size: 1em;
+	padding: 1em;
+}
+
+.pure-form legend {
+	margin-bottom: 4%;
+}
+
+.pure-form .pure-u-1-2 {
+	width: 48%;
+}
+
+.pure-form .pure-u-1-2:first-child {
+	padding-right: 2%;
+}
+
+.pure-form .pure-u-1-2:last-child {
+	padding-left: 2%;
+}
+
+.google-signin button,
+.spotify-import button,
+.import-step-2 button {
+	font-size: 1.5em;
+	width: 100%;
+	margin-top: 4%;
+	padding: 0.75em 2em;
+}
+
+.page-message {
+	margin: 20px 0;
+	padding: 15px 30px 15px 15px;
+	display: none;
+}
+
+.page-message.force {
+	display: block;
+}
+
+.page-message.error {
+	background-color: #fcf2f2;
+	border-left: 5px solid #df7c7b;
+}
+
+.page-message.success {
+	background-color: #f9fcf2;
+	border-left: 5px solid #a1df7b;
+}
+
+.import-process {
+	padding: 40px;
+	border: 1px solid rgba(0, 0, 0, .10);
+	position: relative;
+}
+
+.import-progress {
+	height: 5px;
+	background: #fa9330;
+	position: absolute;
+	bottom: -1px;
+	left: -1px;
+}
+
+.import-stats {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.import-stats li {
+	color: rgba(0, 0, 0, .50);
+	margin: 10px 0;
+}
+
+.import-stats li strong {
+	font-weight: normal;
+	border-bottom: 1px solid rgba(0, 0, 0, .20);
+}
+
+.import-stats li span {
+	color: rgba(0, 0, 0, .75);
+	font-weight: bold;
 }

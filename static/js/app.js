@@ -48,7 +48,7 @@ var App = (function(){
                 success : function(d){
                     
                     Remixed.UI.message({
-                        'rehide' : true,
+                        'rehide' : false,
                         'response' : d
                     })
                 }

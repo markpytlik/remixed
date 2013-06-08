@@ -21,7 +21,7 @@
 		  });
 		</script>
 
-		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600|Varela+Round' rel='stylesheet' type='text/css'>
+		<link href='http://fonts.googleapis.com/css?family=Raleway:400,100,200' rel='stylesheet' type='text/css'>
 		<link href="http://yui.yahooapis.com/pure/0.1.0/pure-min.css" rel="stylesheet">
 		<link href="../static/css/remixed.css" rel="stylesheet">
 
@@ -34,22 +34,20 @@
 	<body>
 		<div class="remixed">
 
-			<h1 class="page-title">{% block title %} Remixed {% end %}</h1>
-			<h2 class="page-subtitle">A playlist importer</h2>
-
-			<div class="pure-menu pure-menu-open pure-menu-horizontal">
-				<ul>
-					{% if current_user is not None %}
-					<li><a href="/logout">Logout, {{ current_user.email }}</a></li>
-					{% end %}
-				</ul>
+			<div class="page-header">
+				<h1 class="page-title">{% block title %} Remixed {% end %}</h1>
+				<h2 class="page-subtitle">A <strong class="spotify">Spotify</strong> playlist importer</h2>
 			</div>
 
-			<p class="lead">{% block lead %} Import a Spotify playlist into your Google All Access account.</p> {% end %}
-
-			{% if current_user is None %}
-				<p>Use <a href="login">your Google account</a> to begin.</p> 
+			<!--
+			{% if current_user is not None %}
+			<div class="pure-menu pure-menu-open pure-menu-horizontal">
+				<ul>
+					<li><a href="/logout">Logout, {{ current_user.email }}</a></li>
+				</ul>
+			</div>
 			{% end %}
+			-->
 
 			{% block body %}
 			{% end %}
