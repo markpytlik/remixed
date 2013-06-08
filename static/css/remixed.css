@@ -1,51 +1,23 @@
-.page-message{
-    
-}
-.page-message.success{
-    color:#468847;
-}
-.page-message.error{
-    color:#b94a48;
-}
-.page-message.muted{
-    color:#999999;
+.remixed {
+	margin: 0 auto;
+	width: 50%;
 }
 
-.btn-import{
-    display: none;
+h1,
+h2,
+h3,
+h4,
+h5 {
+	font-weight: 400;
+	font-family: 'Open Sans', sans-serif;
+	color: #555;
 }
 
-.table-results{
-    display: none;
-}
-
-.mar{
+.page-title {
 
 }
-.mar.top{
-    margin-top:10px;
-}
-.mar.bottom{
-    margin-bottom: 10px;
-}
-.mar.bottom.small{
-    margin-bottom: 5px;
-}
-.mar.bottom.none{
-    margin-bottom: 0px;
-}
-.table td {
-    vertical-align: middle;
-}
 
-.table-results-cell{
-     text-align: center;   
-   vertical-align: middle;
-
-    width:12px;
-   height: 12px;
-}
-.table-results-cell.thumb{
-    width:50px;
-    height:50px
+.lead {
+	font: 18px 'Varela Round';
+	color: #888;
 }
