@@ -49,7 +49,7 @@ var UI = (function(){
 
         else if( settings.rehide ) {
             setTimeout(function(){
-                this.pageMessage.fadeOut();
+                Remixed.UI.pageMessage.fadeOut();
             }, settings.timeout );
         }
     };

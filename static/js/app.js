@@ -36,7 +36,6 @@ var App = (function(){
         });
 
         // Bind form submission
-        this.playlistForm = $('#playlist-form')
         this.playlistForm.bind('submit', function(e){
 
             e.preventDefault();
@@ -98,8 +97,11 @@ var App = (function(){
 
                 Remixed.UI.message({
                     'response' : d,
-                    'rehide' : true
+                    'rehide' : true,
+                    'timeout' : 3000
                 })
+
+                Remixed.App.matchBox.fadeOut();
 
             }
         })
@@ -147,8 +149,7 @@ var App = (function(){
 
                         if(cur_track_num == total_tracks)
                         {
-                             t.import(hits, playlist);
-                             alert('done')
+                            t.import(hits, playlist);                
                         }
                     }
                 })
@@ -192,9 +193,11 @@ var App = (function(){
                 Remixed.Logger.log(JSON.stringify(d.tracks));
 
                 Remixed.UI.message({
-                    'message' : "Preparing to process &mdash; " + d.playlist_title,
+                    'message' : "Processing &mdash; " + d.playlist_title,
                     'success' : true,
-                    'css' : 'muted'
+                    'css' : 'muted',
+                    'rehide' : true,
+                    'timeout' : 3000
                 })
 
                 t.get_spotify_pl_complete(d.tracks, d.playlist_title);
