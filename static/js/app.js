@@ -11,6 +11,11 @@ var App = (function(){
         this.searchBox = $('#playlist-link')
         this.loginForm = $('#login-form')
         this.playlistForm = $('#playlist-form')
+        this.progressBar = $('.import-progress')
+        this.currentSearch  = $('#current-search-text')
+        this.currentHit = $('#current-hit-text')
+        this.currentMiss = $('#current-miss-text')
+        this.matchBox = $('.import-step-2')
 
         // Bind login button
         this.loginForm.bind('submit', function(e){
@@ -127,17 +132,23 @@ var App = (function(){
                         }
                         else
                         {
-                            // Error matching
+                            misses.push( { } )
                         }
 
-
-                        // TODO: Update status card here
-
                         cur_track_num  ++;
+
+                        var progress_percent = ( cur_track_num / total_tracks ) * 100;
+                        t.progressBar.css('width', "{0}%".format(progress_percent))
+
+                        t.currentSearch.html(d.match.spotify.title);
+
+                        t.currentMiss.html(misses.length)
+                        t.currentHit.html(hits.length)
 
                         if(cur_track_num == total_tracks)
                         {
                              t.import(hits, playlist);
+                             alert('done')
                         }
                     }
                 })
@@ -156,6 +167,8 @@ var App = (function(){
             return;
         }
         
+        this.matchBox.fadeIn();
+
         var t = this;
 
         $.ajax({
