@@ -1,0 +1,51 @@
+.page-message{
+    
+}
+.page-message.success{
+    color:#468847;
+}
+.page-message.error{
+    color:#b94a48;
+}
+.page-message.muted{
+    color:#999999;
+}
+
+.btn-import{
+    display: none;
+}
+
+.table-results{
+    display: none;
+}
+
+.mar{
+
+}
+.mar.top{
+    margin-top:10px;
+}
+.mar.bottom{
+    margin-bottom: 10px;
+}
+.mar.bottom.small{
+    margin-bottom: 5px;
+}
+.mar.bottom.none{
+    margin-bottom: 0px;
+}
+.table td {
+    vertical-align: middle;
+}
+
+.table-results-cell{
+     text-align: center;   
+   vertical-align: middle;
+
+    width:12px;
+   height: 12px;
+}
+.table-results-cell.thumb{
+    width:50px;
+    height:50px
+}

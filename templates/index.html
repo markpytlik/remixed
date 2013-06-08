@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <div class="control-group control-group-pl">
+        <form class="form-search" id="playlist-form">
+            <p class="lead muted"><small>paste a playlist to begin</small></p>
+            <input id="playlist-link" type="text" class="input-large search-query input-xxlarge">
+        </form>
+    </div>
+
+    <div>
+        <span>
+            <button name="btn-add" id="btn-add" class="btn btn-medium btn-import pull-right mar bottom small" type="submit">Import</button>
+
+            <div class="page-message"></div>
+        </span>
+        <table id="table-results" class="table table-striped table-bordered table-hover table-condensed table-results">
+            <tr class="first-row">
+                <td class="table-results-cell"><input class="first-checkbox" type="checkbox" id="checkbox-check-all" /></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <div class="pagination pagination-large pagination-centered">
+            <ul id="pages">
+
+            </ul>
+        </div>
+    </div>
+
+{% end %}
