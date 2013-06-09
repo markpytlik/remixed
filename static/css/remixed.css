@@ -72,6 +72,7 @@ h5 {
 	width: 100%;
 	margin-top: 4%;
 	padding: 0.75em 2em;
+	position: relative;
 }
 
 .spotify-import input[type="text"] {
@@ -156,4 +157,10 @@ h5 {
 .import-step-2 {
 	margin: 0 0 4%;
 	display: none;
+}
+
+.loading {
+	position: absolute;
+	top: 50%;
+	left: 50%;
 }

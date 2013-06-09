@@ -65,21 +65,24 @@ var App = (function(){
 	}
 
 	App.prototype.login = function() {
-		
-		Remixed.UI.spin('spin');
+		var button = $( '#btn-login' );
+
+		Remixed.UI.spin( button );
 
 		$.ajax({
 			'url' : 'login',
 			'data' : this.loginForm.serialize(),
 			'type' : 'post',
 			success : function(d){
-			
 				Remixed.UI.message({
 					'rehide' : false,
 					'response' : d
-				})
+				});
 
-				Remixed.UI.spin('spin', true)
+				if ( ! d.success ) {
+					Remixed.UI.spin( button, true );
+					button.find( '.text' ).html( 'Sign In' );
+				}
 			}
 		})
 
