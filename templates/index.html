@@ -27,28 +27,29 @@
 		</form>
 	{% else %}
 
+	<div class="page-message"></div>
+
 	<div class="import-step-1">
 		<p class="lead">Paste a valid <strong class="spotify">Spotify</strong> playlist URL.</p>
 			
 		<form class="pure-form spotify-import" id="playlist-form">
 			<input id="playlist-link" type="text" class="pure-input-1" placeholder="http://" required>
-			<button name="" id="" class="pure-button pure-button-primary" type="submit">Find Matches</button>
+
+			<div class="import-step-2 animated fadeInDown">
+				<div class="import-process">
+					<ul class="import-stats">
+						<li class="current-search"><strong>Importing</strong> <span id="current-search-text">Damage, Inc.</span></li>
+						<li class="current-success"><strong>Successful imports</strong>: <span id="current-hit-text">47</span></li>
+						<li class="current-fail"><strong>Failed imports</strong>: <span id="current-miss-text">33</span></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="playlist-form-submit-progress-back">
+				<button name="" id="playlist-form-submit" class="pure-button pure-button-primary" type="submit">Find Matches</button>
+				<div class="playlist-import-progress"></div>
+			</div>
 		</form>
-	</div>
-
-	<br /><br />
-
-	<div class="page-message"></div>
-	<div class="import-step-2" style="display:none">
-		<div class="import-process">
-			<ul class="import-stats">
-				<li class="current-search"><strong>Importing</strong> <span id="current-search-text">Damage, Inc.</span></li>
-				<li class="current-success"><strong>Successful imports</strong>: <span id="current-hit-text">47</span></li>
-				<li class="current-fail"><strong>Failed imports</strong>: <span id="current-miss-text">33</span></li>
-			</ul>
-
-			<div class="import-progress" style="width: 0%"></div>
-		</div>
 	</div>
 
 	{% end %}

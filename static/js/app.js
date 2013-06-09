@@ -2,209 +2,205 @@
 
 var App = (function(){
 
-    var App = function(){
-        
-    }
+	var App = function(){
+		
+	}
 
-    App.prototype.init = function(first_argument) {
-        
-        this.searchBox = $('#playlist-link')
-        this.loginForm = $('#login-form')
-        this.playlistForm = $('#playlist-form')
-        this.progressBar = $('.import-progress')
-        this.currentSearch  = $('#current-search-text')
-        this.currentHit = $('#current-hit-text')
-        this.currentMiss = $('#current-miss-text')
-        this.matchBox = $('.import-step-2')
+	App.prototype.init = function(first_argument) {
+		
+		this.searchBox      = $('#playlist-link')
+		this.loginForm      = $('#login-form')
+		this.playlistForm   = $('#playlist-form')
+		this.playlistSubmit = $( '#playlist-form-submit' )
+		this.progressBar    = $('.playlist-import-progress')
+		this.currentSearch  = $('#current-search-text')
+		this.currentHit     = $('#current-hit-text')
+		this.currentMiss    = $('#current-miss-text')
+		this.matchBox       = $('.import-step-2')
 
-        // Bind login button
-        this.loginForm.bind('submit', function(e){
-            e.preventDefault();
+		// Bind login button
+		this.loginForm.bind('submit', function(e){
+			e.preventDefault();
 
-            Remixed.App.login();
+			Remixed.App.login();
+		});
 
-            return false;
-        });
+		//Bind change event for
+		this.searchBox.bind('input', function(e){
+			e.preventDefault();
 
-        //Bind change event for
-        this.searchBox.bind('input', function(e){
-            e.preventDefault();
+			Remixed.App.verify_playlist();
+		});
 
-            Remixed.App.verify_playlist();
+		// Bind form submission
+		this.playlistForm.bind('submit', function(e){
+			e.preventDefault();
 
-            return false;
-        });
+			Remixed.App.send_playlist();
+		});
 
-        // Bind form submission
-        this.playlistForm.bind('submit', function(e){
+	};
 
-            e.preventDefault();
+	App.prototype.verify_playlist = function(){
 
-            Remixed.App.send_playlist();
+		var t = this;
 
-            return false;
-        });
+		$.ajax({
+			'url' : 'cpl',
+			'data' : JSON.stringify({
+				'link' : this.searchBox.val()
+			}),
+			type : 'post',
+			success : function(d){
+				if(d.success){
+					t.searchBox.attr('data-valid', "true")
+				}
+				else{
+					t.searchBox.attr('data-valid', "false")
+				}
 
-    };
+				// TODO: Update some visual indicator of success or failure
+			}   
+		})
+	}
 
-    App.prototype.verify_playlist = function(){
+	App.prototype.login = function() {
+	
+		$.ajax({
+			'url' : 'login',
+			'data' : this.loginForm.serialize(),
+			'type' : 'post',
+			success : function(d){
+			
+				Remixed.UI.message({
+					'rehide' : false,
+					'response' : d
+				})
+			}
+		})
 
-        var t = this;
+	};
 
-        $.ajax({
-            'url' : 'cpl',
-            'data' : JSON.stringify({
-                'link' : this.searchBox.val()
-            }),
-            type : 'post',
-            success : function(d){
-                if(d.success){
-                    t.searchBox.attr('data-valid', "true")
-                }
-                else{
-                    t.searchBox.attr('data-valid', "false")
-                }
+	App.prototype.import = function(tracks, playlist){
 
-                // TODO: Update some visual indicator of success or failure
-            }   
-        })
-    }
+		$.ajax({
+			'url' : 'crunch',
+			type : 'POST',
+			data: JSON.stringify({'playlist_title' : playlist, 'tracks' : tracks}),
+			success : function(d){
 
-    App.prototype.login = function() {
-    
-        $.ajax({
-            'url' : 'login',
-            'data' : this.loginForm.serialize(),
-            'type' : 'post',
-            success : function(d){
-            
-                Remixed.UI.message({
-                    'rehide' : false,
-                    'response' : d
-                })
-            }
-        })
+				Remixed.UI.message({
+					'response' : d,
+					'rehide' : true,
+					'timeout' : 3000
+				})
 
-    };
+				Remixed.App.matchBox.fadeOut();
 
-    App.prototype.import = function(tracks, playlist){
+			}
+		})
+	};
 
-        $.ajax({
-            'url' : 'crunch',
-            type : 'POST',
-            data: JSON.stringify({'playlist_title' : playlist, 'tracks' : tracks}),
-            success : function(d){
+	App.prototype.get_spotify_pl_complete = function(tracks, playlist){
+			cur_track_num = 0;
 
-                Remixed.UI.message({
-                    'response' : d,
-                    'rehide' : true,
-                    'timeout' : 3000
-                })
+			hits = [], misses = [];
 
-                Remixed.App.matchBox.fadeOut();
+			var t = this;
+			$.each(tracks, function(){
+				track = this;
+				total_tracks = tracks.length
 
-            }
-        })
-    };
+				$.ajax({
+					'url' : 'find',
+					'type' : 'post',
+					'data' : JSON.stringify(track),
+					error : function(){
+						cur_track_num++;
+					},
+					success : function(d){
+						 
+						var index = d.match.index
 
-    App.prototype.get_spotify_pl_complete = function(tracks, playlist){
-            cur_track_num = 0;
+						if (d.match != null && d.match.google != null && d.match.spotify != null)
+						{
+							hits.push( {"id" : d.match.google[0], "type" : "2"})
+						}
+						else
+						{
+							misses.push( { } )
+						}
 
-            hits = [], misses = [];
+						cur_track_num  ++;
 
-            var t = this;
-            $.each(tracks, function(){
-                track = this;
-                total_tracks = tracks.length
+						var progress_percent = ( cur_track_num / total_tracks ) * 100;
+						t.progressBar.css('width', "{0}%".format(progress_percent))
 
-                $.ajax({
-                    'url' : 'find',
-                    'type' : 'post',
-                    'data' : JSON.stringify(track),
-                    error : function(){
-                        cur_track_num++;
-                    },
-                    success : function(d){
-                         
-                        var index = d.match.index
+						t.currentSearch.html(d.match.spotify.title);
 
-                        if (d.match != null && d.match.google != null && d.match.spotify != null)
-                        {
-                            hits.push( {"id" : d.match.google[0], "type" : "2"})
-                        }
-                        else
-                        {
-                            misses.push( { } )
-                        }
+						t.currentMiss.html(misses.length)
+						t.currentHit.html(hits.length)
 
-                        cur_track_num  ++;
+						if(cur_track_num == total_tracks)
+						{
+							t.import(hits, playlist);                
+						}
+					}
+				})
+		})
+	}
 
-                        var progress_percent = ( cur_track_num / total_tracks ) * 100;
-                        t.progressBar.css('width', "{0}%".format(progress_percent))
+	App.prototype.send_playlist = function() {
+		
+		// Ensure we have a valid sp URI, this is checked better on server side as well
+		if(this.searchBox.attr('data-valid') != "true"){
+			Remixed.UI.message({
+				'message' : "please input a valid playlist url",
+				'success' : false
+			})
+	
+			return;
+		}
 
-                        t.currentSearch.html(d.match.spotify.title);
+		this.searchBox.prop( 'disabled', true );
+		
+		this.matchBox.slideDown();
 
-                        t.currentMiss.html(misses.length)
-                        t.currentHit.html(hits.length)
+		$( '#playlist-form-submit' )
+			.css( 'background-color', 'transparent' )
+			.text( 'Importing...' );
 
-                        if(cur_track_num == total_tracks)
-                        {
-                            t.import(hits, playlist);                
-                        }
-                    }
-                })
-        })
-    }
+		$( '.playlist-form-submit-progress-back' ).addClass( 'in-progress' );
 
-    App.prototype.send_playlist = function() {
-        
-        // Ensure we have a valid sp URI, this is checked better on server side as well
-        if(this.searchBox.attr('data-valid') != "true"){
-            Remixed.UI.message({
-                'message' : "please input a valid playlist url",
-                'success' : false
-            })
-    
-            return;
-        }
-        
-        this.matchBox.fadeIn();
+		var t = this;
 
-        var t = this;
+		$.ajax({
+			'url' : 'playlist',
+			'data' : JSON.stringify({
+				'link' : this.searchBox.val()
+			}),
+			type : 'POST',
+			success : function(d) {
 
-        $.ajax({
-            'url' : 'playlist',
-            'data' : JSON.stringify({
-                'link' : this.searchBox.val()
-            }),
-            type : 'POST',
-            success : function(d) {
+				if(!d.success){
+					Remixed.UI.message({
+						'response' : d,
+						'rehide' : true,
+						'timeout' : 3000
+					})
 
-                if(!d.success){
-                    Remixed.UI.message({
-                        'response' : d,
-                        'rehide' : true,
-                        'timeout' : 3000
-                    })
+					return;
+				}
 
-                    return;
-                }
+				Remixed.Logger.log(JSON.stringify(d.tracks));
 
-                Remixed.Logger.log(JSON.stringify(d.tracks));
+				
 
-                Remixed.UI.message({
-                    'message' : "Processing &mdash; " + d.playlist_title,
-                    'success' : true,
-                    'css' : 'muted',
-                    'rehide' : true,
-                    'timeout' : 3000
-                })
+				t.get_spotify_pl_complete(d.tracks, d.playlist_title);
+			}
+		})
+		
+	};
 
-                t.get_spotify_pl_complete(d.tracks, d.playlist_title);
-            }
-        })
-        
-    };
-
-    return App;
+	return App;
 })();   
