@@ -104,6 +104,11 @@ h5 {
 	position: relative;
 }
 
+#playlist-form-submit {
+	position: relative;
+	z-index: 10;
+}
+
 .playlist-form-submit-progress-back {
 	position: relative;
 	background: #ccc;
