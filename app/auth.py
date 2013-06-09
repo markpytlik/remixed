@@ -49,6 +49,12 @@ class LoginHandler(app.base.BaseHandler):
 
 		ret = dict()
 		ret['Auth'] = None
+
+		print user_login_resp.text
+
+		if "Info=WebLoginRequired" in user_login_resp.text:
+			return self.resp({"message" : "Please visit https://accounts.google.com/DisplayUnlockCaptcha to allow access"}, False)
+
 		for line in user_login_resp.text.split('\n'):
 		    if '=' in line:
 		        var, val = line.split('=', 1)
@@ -69,10 +75,13 @@ class LoginHandler(app.base.BaseHandler):
 
 		xt = None
 
-		if get_cookie_resp.cookies['xt'] is None:
-		    return self.resp( {"message" : "xt cookie not found"}, False )
-		else:
-		    xt = get_cookie_resp.cookies['xt']
+		try:
+			if get_cookie_resp.cookies['xt'] is None:
+			    return self.resp( {"message" : "xt cookie not found"}, False )
+			else:
+			    xt = get_cookie_resp.cookies['xt']
+		except:
+			return self.resp({"message" : "XSRF Token not found - " + user_login_resp.text})
 					
 		if user is None:
 		    user_id = self.db.execute("INSERT INTO User (email, auth, xt, sjaid, last_fetch) VALUES(%s, %s, %s, %s, UTC_TIMESTAMP)", 
