@@ -13,19 +13,38 @@ import app.music
 import time
 import wsgiref.handlers
 from tornado.options import define, options
-
 import tornado.wsgi
-
 from wsgiref.simple_server import make_server
-
-
 import sys
+import csv
 
-define("mysql_host", default="remixed-dev.ctcjjejttofu.us-east-1.rds.amazonaws.com:3306", help="blog database host")
-define("mysql_database", default="remixed", help="")
-define("mysql_user", default=sys.argv[1], help="")
-define("mysql_password", default=sys.argv[2], help="")
+DEV = True
 
+
+if DEV is True:
+    MYSQL_HOST = "remixed-dev.ctcjjejttofu.us-east-1.rds.amazonaws.com:3306"
+    MYSQL_USER_NAME = sys.argv[1]
+    MYSQL_PASSWORD = sys.argv[2]
+    DATABASE = "remixed"
+    SPOTIFY_USER = "RemixedApp"
+    SPOTIFY_PASSWORD = sys.argv[3]
+else:
+    file = open('.remixed-prod-conf')
+
+    if file is not None:
+        args = file.read().split(',')
+        
+        MYSQL_HOST = args[0]
+        MYSQL_USER_NAME = args[1]
+        MYSQL_PASSWORD = args[2]
+        DATABASE = "remixed"
+        SPOTIFY_USER = "RemixedApp"
+        SPOTIFY_PASSWORD = args[3]
+
+define("mysql_host", default=MYSQL_HOST, help="database host")
+define("mysql_database", default=DATABASE, help="")
+define("mysql_user", default=MYSQL_USER_NAME, help="")
+define("mysql_password", default=MYSQL_PASSWORD, help="")
 
 
 from spotify import ArtistBrowser, Link, ToplistBrowser, SpotifyError
@@ -52,9 +71,8 @@ class SpotifyDriver(SpotifySessionManager):
             print error
             return
 
-        print "Logged in!"
+        print "Logged into Spotify!"
 
-        #return
 
 class Remixed(tornado.web.Application):
   def __init__(self):
@@ -87,13 +105,19 @@ class Remixed(tornado.web.Application):
 
     print "Connected to DB"
 
-    self.sp = SpotifyDriver("RemixedApp", sys.argv[3], True)
+    self.sp = SpotifyDriver(SPOTIFY_USER, SPOTIFY_PASSWORD, True)
     
     thread.start_new_thread(self.sp.connect, ())
 
 
+if DEV is True:
+    tornado.options.parse_command_line()
+    http_server = tornado.httpserver.HTTPServer(Remixed())
+    http_server.listen(8889)
+    tornado.ioloop.IOLoop.instance().start()
+else:
+    server = wsgiref.simple_server.make_server('', 8889, Remixed())
+    server.serve_forever()
+
 print "Server Started"
-tornado.options.parse_command_line()
-http_server = tornado.httpserver.HTTPServer(Remixed())
-http_server.listen(8889)
-tornado.ioloop.IOLoop.instance().start()
+
