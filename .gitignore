@@ -7,3 +7,4 @@ db.mwb
 /tmp/
 .elasticbeanstalk/
 .remixed-prod-conf
+remixed-prod.pem
