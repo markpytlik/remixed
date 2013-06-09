@@ -52,6 +52,7 @@ class GoogleClient():
             track_album = Helper.clean(track['album'])
             track_id = track['id']
             pl_id = track['pl_id']
+            track_index = track['index']
 
             search_term = track_title + " - " + track_artist
             
@@ -129,6 +130,7 @@ class GoogleClient():
             }
 
             meta = {
+                'index' : track_index,
                 'artist' : track_artist,
                 'title' : track_title,
                 'album' : track_album

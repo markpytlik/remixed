@@ -72,8 +72,11 @@ class GetSpotifyTracks(app.base.BaseHandler):
 				if self.sp.wait(track) is not None:
 					try:
 						#print "*",track,"*-*",track.artists()[0].name(),"*"
-						tracks.append({'title' : track.name(), 'album' : track.album().name(), 
-										'artist' : track.artists()[0].name(), 'index' : index, 'valid' : True, 
+						tracks.append({'title' : track.name(), 
+										'album' : track.album().name(), 
+										'artist' : track.artists()[0].name(), 
+										'index' : index, 
+										'valid' : True, 
 										'id' : str(Link.from_track(track)),
 										'pl_id' : str(pl_id)})
 					except:

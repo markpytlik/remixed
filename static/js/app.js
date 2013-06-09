@@ -114,6 +114,13 @@ var App = (function(){
 		})
 	};
 
+	function sortByKey(array, key) {
+    	return array.sort(function(a, b) {
+        	var x = a[key]; var y = b[key];
+        	return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    	});
+	}
+
 	App.prototype.get_spotify_pl_complete = function(tracks, playlist){
 			cur_track_num = 0;
 
@@ -135,10 +142,10 @@ var App = (function(){
 						},
 						success : function(d){
 							 
-							var index = d.match.index
+							var index = d.match.meta.index
 
 							if (d.match.valid)
-								hits.push( {"id" : d.match.ids.google, "type" : "2"})
+								hits.push( {"id" : d.match.ids.google, "type" : "2", "index" : index})
 							else
 								misses.push( { } )
 
@@ -151,6 +158,9 @@ var App = (function(){
 
 							t.currentMiss.html(misses.length)
 							t.currentHit.html(hits.length)
+
+							// Sort, this is bad, the tracks should be inserted into array in proper order. Whatever
+							sortByKey(hits, 'index')
 
 							if(cur_track_num == total_tracks)
 							{
