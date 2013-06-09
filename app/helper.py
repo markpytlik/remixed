@@ -25,10 +25,6 @@ class Helper():
 
     @staticmethod
     def clean(data):
-        data = data.lower()
-        data = data.replace("clean", "")#data #str(data).strip('\t\n\r')#.lower()
-        data = data.replace("explicit", "")
-
         return data
         
     @staticmethod

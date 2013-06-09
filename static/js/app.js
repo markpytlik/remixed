@@ -120,42 +120,41 @@ var App = (function(){
 				track = this;
 				total_tracks = tracks.length
 
-				$.ajax({
-					'url' : 'find',
-					'type' : 'post',
-					'data' : JSON.stringify(track),
-					error : function(){
-						cur_track_num++;
-					},
-					success : function(d){
-						 
-						var index = d.match.index
+				if(track.valid) {
 
-						if (d.match != null && d.match.google != null && d.match.spotify != null)
-						{
-							hits.push( {"id" : d.match.google[0], "type" : "2"})
+					$.ajax({
+						'url' : 'find',
+						'type' : 'post',
+						'data' : JSON.stringify(track),
+						error : function(){
+							cur_track_num++;
+						},
+						success : function(d){
+							 
+							var index = d.match.index
+
+							if (d.match.valid)
+								hits.push( {"id" : d.match.ids.google, "type" : "2"})
+							else
+								misses.push( { } )
+
+							cur_track_num  ++;
+
+							var progress_percent = ( cur_track_num / total_tracks ) * 100;
+							t.progressBar.css('width', "{0}%".format(progress_percent))
+
+							t.currentSearch.html(d.match.meta.title);
+
+							t.currentMiss.html(misses.length)
+							t.currentHit.html(hits.length)
+
+							if(cur_track_num == total_tracks)
+							{
+								t.import(hits, playlist);                
+							}
 						}
-						else
-						{
-							misses.push( { } )
-						}
-
-						cur_track_num  ++;
-
-						var progress_percent = ( cur_track_num / total_tracks ) * 100;
-						t.progressBar.css('width', "{0}%".format(progress_percent))
-
-						t.currentSearch.html(d.match.spotify.title);
-
-						t.currentMiss.html(misses.length)
-						t.currentHit.html(hits.length)
-
-						if(cur_track_num == total_tracks)
-						{
-							t.import(hits, playlist);                
-						}
-					}
-				})
+					});
+				}
 		})
 	}
 
