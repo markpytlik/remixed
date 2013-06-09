@@ -95,8 +95,17 @@ var App = (function(){
 					'timeout' : 3000
 				})
 
-				Remixed.App.matchBox.fadeOut();
 
+				Remixed.App.matchBox.fadeOut();
+				Remixed.App.progressBar.css('width', '0%')
+				Remixed.App.searchBox.prop('disabled', false)
+				$( '#playlist-form-submit' )
+					.css( 'background-color', '#0078e7' )
+					.text( 'Find Matches' );
+
+					$( '.playlist-form-submit-progress-back' ).removeClass( 'in-progress' );
+
+				Remixed.App.searchBox.val('').blur()
 			}
 		})
 	};
@@ -191,11 +200,7 @@ var App = (function(){
 
 					return;
 				}
-
-				Remixed.Logger.log(JSON.stringify(d.tracks));
-
 				
-
 				t.get_spotify_pl_complete(d.tracks, d.playlist_title);
 			}
 		})
