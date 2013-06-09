@@ -1,16 +1,26 @@
-var Logger = (function(){
-    var Logger = function(){
+/* Logger.js - Stupidly simple (useless) console.log wrapper */
 
+var Logger = (function(){
+
+    var Logger = function(){
+        this.date = new Date();
     }
 
     Logger.prototype.now = function(){ 
-        date = new Date()
-        return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+        return this.date.getHours() + ":" + this.date.getMinutes() + ":" + this.date.getSeconds();
     };
 
-    Logger.prototype.log = function(arg, class_name) {
+    Logger.prototype.log = function(arg) {
+
         time = this.now();
-        console.log( (( class_name  != undefined ) ? "[" + class_name + "] - [" + time + "]: " : time + ": ") + arg)        
+
+        // Don't build a string, we want the object dumped
+        if(arg != null && typeof arg === 'object')
+            console.log(arg);
+
+        // Append some useful(?) info
+        else 
+            console.log( "[{0}]: {1}" .format(this.now(), arg) );
     };
 
     return Logger;
