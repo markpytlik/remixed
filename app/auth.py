@@ -81,7 +81,7 @@ class LoginHandler(app.base.BaseHandler):
 			else:
 			    xt = get_cookie_resp.cookies['xt']
 		except:
-			return self.resp({"message" : "XSRF Token not found - " + user_login_resp.text})
+			return self.resp({"message" : "XSRF Token not found - " + get_cookie_resp.text})
 					
 		if user is None:
 		    user_id = self.db.execute("INSERT INTO User (email, auth, xt, sjaid, last_fetch) VALUES(%s, %s, %s, %s, UTC_TIMESTAMP)", 
