@@ -21,16 +21,6 @@ class LoginHandler(app.base.BaseHandler):
 	def check_xsrf_cookie(self):
 		pass
 
-	def get(self):
-
-		user = self.get_current_user()
-		delta = timedelta(days = 1)
-
-		if user is not None or self.session_expired() == False:
-			self.redirect("/")
-		else:
-			self.render("login.html")
-
 	def post(self):
 		passw = self.get_argument('Passwd', None)
 		email = self.get_argument('Email', None)

@@ -65,7 +65,9 @@ var App = (function(){
 	}
 
 	App.prototype.login = function() {
-	
+		
+		Remixed.UI.spin('spin');
+
 		$.ajax({
 			'url' : 'login',
 			'data' : this.loginForm.serialize(),
@@ -76,6 +78,8 @@ var App = (function(){
 					'rehide' : false,
 					'response' : d
 				})
+
+				Remixed.UI.spin('spin', true)
 			}
 		})
 

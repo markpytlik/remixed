@@ -62,7 +62,6 @@ class Remixed(tornado.web.Application):
         (r"/", app.spot.HomeHandler),
         (r"/cpl", app.spot.CheckPlayList),
         (r"/playlist", app.spot.GetSpotifyTracks),
-        (r"/auth", app.auth.LoginHandler),
         (r"/find", app.music.FindSongHandler),
         (r"/crunch", app.music.Crunch),
         (r"/login", app.auth.LoginHandler),
