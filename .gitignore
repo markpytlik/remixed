@@ -3,4 +3,5 @@
 *.pyc
 *.swp
 db.mwb
+.DS_Store
 /tmp/
