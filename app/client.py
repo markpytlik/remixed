@@ -63,6 +63,7 @@ class GoogleClient():
             cr_pl_params['headers'] = {'Authorization' : 'GoogleLogin auth='+ user.auth}
             cr_pl_params['params'] = { 'u' : 0, 'xt' :  user.xt, 'format' : 'jsarray' }
 
+            print search_term
             
             all_access_song_id = None
 
@@ -86,6 +87,8 @@ class GoogleClient():
                         slim_result =full_result[:index_of_care + 2]
 
                         clean_result = re.sub(',+', ',', slim_result) + ']]]]'
+
+                        print clean_result
 
                         ret = json.loads(clean_result)
                         
