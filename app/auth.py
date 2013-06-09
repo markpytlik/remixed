@@ -83,7 +83,7 @@ class LoginHandler(app.base.BaseHandler):
 		    return self.resp( {"message" : "xt cookie not found"}, False )
 		else:
 		    xt = get_cookie_resp.cookies['xt']
-
+					
 		if user is None:
 		    user_id = self.db.execute("INSERT INTO User (email, auth, xt, sjaid, last_fetch) VALUES(%s, %s, %s, %s, UTC_TIMESTAMP)", 
 		        email, 
@@ -91,7 +91,7 @@ class LoginHandler(app.base.BaseHandler):
 		        xt,
 		        "")
 		else:
-		    user_id = self.db.execute("UPDATE User SET auth = %s, xt = %s, last_fetch = UTC_TIMESTAMP", auth, xt)
+		    user_id = self.db.execute("UPDATE User SET auth = %s, xt = %s, last_fetch = UTC_TIMESTAMP WHERE email = %s", auth, xt, email)
 
 		if user_id is None:
 		    return self.resp( {"message" : "Failed to query user"}, False)
