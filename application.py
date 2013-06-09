@@ -109,15 +109,10 @@ class Remixed(tornado.web.Application):
     
     thread.start_new_thread(self.sp.connect, ())
 
-
-if DEV is True:
-    tornado.options.parse_command_line()
-    http_server = tornado.httpserver.HTTPServer(Remixed())
-    http_server.listen(8889)
-    tornado.ioloop.IOLoop.instance().start()
-else:
-    server = wsgiref.simple_server.make_server('', 8889, Remixed())
-    server.serve_forever()
+tornado.options.parse_command_line()
+http_server = tornado.httpserver.HTTPServer(Remixed())
+http_server.listen(8889)
+tornado.ioloop.IOLoop.instance().start()
 
 print "Server Started"
 
