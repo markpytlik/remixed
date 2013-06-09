@@ -110,6 +110,9 @@ var App = (function(){
 					$( '.playlist-form-submit-progress-back' ).removeClass( 'in-progress' );
 
 				Remixed.App.searchBox.val('').blur()
+				Remixed.App.currentSearch.html('...')
+				Remixed.App.currentMiss.html('0')
+				Remixed.App.currentHit.html('0')
 			}
 		})
 	};
