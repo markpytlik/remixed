@@ -40,7 +40,7 @@ class GetSpotifyTracks(app.base.BaseHandler):
 	def post(self):
 		user = self.get_current_user()
 
-		if user is None or self.session_expired():
+		if user is None:
 			return self.resp({'message' : "please login, you will be redirected to login page...", "next" : "/login"}, False)
 
 		try:
