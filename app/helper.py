@@ -25,7 +25,7 @@ class Helper():
 
     @staticmethod
     def clean(data):
-        data = data.encode('utf-8', errors='ignore') # Get rid of bad char
+        #data = data.encode('utf-8', errors='ignore') # Get rid of bad char
         data = re.sub(r'\([^)]*\)', '', data) # Remove anything inside ( )
         data = re.sub(r'\[[^)]*\]', '', data) # Remove anything inside [ ]
         data = re.sub(r'( - ).*', '', data) # Remove anything after a - ie: XYZ - Radio Edit
