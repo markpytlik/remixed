@@ -9,8 +9,7 @@ import sys
 from app.helper import Helper
 
 class GoogleClient():
-    #{"playlistId":"a2532e45-8cd5-4b07-a0da-6216243a151d","songRefs":[{"id":"Trwioibhrokwtlwhusbvi4ie64u","type":2}],"sessionId":"61j8ml3efqb2"}
-
+ 
     @staticmethod 
     def create_then_add(user, playlist, tracks, db):
         if user is None:
@@ -30,17 +29,12 @@ class GoogleClient():
                 cr_pl_params['headers'] = {'Authorization' : 'GoogleLogin auth='+ user.auth}
                 cr_pl_params['params'] = { 'u' : 0, 'xt' :  user.xt }
 
-            
-            #print "*"+track_title+"*"
-
                 cr_pl_resp = sesh.request(**cr_pl_params)
-
-              #  print cr_pl_resp.text
 
 
     @staticmethod
     def find_song(user, track, db):
-        #print user
+        
         if user is None:
             return False
         else:
@@ -161,7 +155,5 @@ class GoogleClient():
 
             if json['title'] is None or json['id'] is None:
                 return Helper.resp({'message' : "Unable to create playlist " + name}, False)
-                #return Helper.general_success()
-                #return {'success' : False}
-            
+                          
             return Helper.resp({"playlist" : json, 'message' : "Playlist " + name + " was created!"})

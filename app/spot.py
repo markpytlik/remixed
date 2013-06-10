@@ -71,7 +71,6 @@ class GetSpotifyTracks(app.base.BaseHandler):
 			for index, track in enumerate(playlist):
 				if self.sp.wait(track) is not None:
 					try:
-						#print "*",track,"*-*",track.artists()[0].name(),"*"
 						tracks.append({'title' : track.name(), 
 										'album' : track.album().name(), 
 										'artist' : track.artists()[0].name(), 
