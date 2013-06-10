@@ -53,7 +53,7 @@ class LoginHandler(app.base.BaseHandler):
 		print user_login_resp.text
 
 		if "Info=WebLoginRequired" in user_login_resp.text:
-			return self.resp({"message" : "Please visit https://accounts.google.com/DisplayUnlockCaptcha to allow access"}, False)
+			return self.resp({"message" : 'Please visit <a href="https://accounts.google.com/DisplayUnlockCaptcha"> Google Access Page </a> to allow access'}, False)
 
 		for line in user_login_resp.text.split('\n'):
 		    if '=' in line:
