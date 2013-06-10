@@ -111,7 +111,7 @@ class Remixed(tornado.web.Application):
 
 tornado.options.parse_command_line()
 http_server = tornado.httpserver.HTTPServer(Remixed())
-http_server.listen(8889)
+http_server.listen(80)
 tornado.ioloop.IOLoop.instance().start()
 
 print "Server Started"
